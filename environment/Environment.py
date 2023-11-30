@@ -1,31 +1,53 @@
-import numpy as np
-import matplotlib.pyplot as plt
+from dataclasses import dataclass
+import random
 
 
+@dataclass
 class Environment:
+    initial_numbers: 0
+    initial_board: []
 
-    @classmethod
-    def __init__(initial_numbers):
-        self.board = np.zeros((9, 9))
-        self.initial_numbers = initial_numbers
+    def add_initial_random_numbers(self):
+        initialized_board = self.initial_board
+        for i in range(self.initial_numbers):
+            location_row = random.randint(0, 8)
+            location_column = random.randint(0, 8)
+            number_to_add = random.randint(1, 9)
+            if is_valid(initialized_board, location_row, location_column, number_to_add):
+                initialized_board[location_row][location_column] = number_to_add
+        self.initial_board = initialized_board
 
-    @staticmethod
-    def create_sudoku():
-        # Create a 9x9 numpy array with zeros
-        board = np.zeros((9, 9))
 
-        # Draw the Sudoku board
-        fig, ax = plt.subplots()
-        ax.imshow(board, cmap='binary')
+def create_sudoku_board():
+    board = []
+    for i in range(9):
+        line = []
+        for j in range(9):
+            line.append(0)
+        board.append(line)
+    return board
 
-        # Draw grid lines
-        for x in range(9):
-            ax.axhline(x, lw=2, color='k', linestyle='-')
-            ax.axvline(x, lw=2, color='k', linestyle='-')
 
-        # Draw thicker lines for the 3x3 subgrids
-        for x in range(0, 9, 3):
-            ax.axhline(x, lw=3, color='k', linestyle='-')
-            ax.axvline(x, lw=3, color='k', linestyle='-')
+def is_valid(board, row, column, number):
+    # verify number in the row
+    for x in range(9):
+        if board[row][x] == number:
+            return False
 
-        plt.show()
+    # Verify the number in the column
+    for x in range(9):
+        if board[x][column] == number:
+            return False
+
+    # Verify the number in the square
+    start_row, start_col = 3 * (row // 3), 3 * (column // 3)
+    for i in range(3):
+        for j in range(3):
+            if board[i + start_row][j + start_col] == number:
+                return False
+    return True
+
+
+def print_board(board_to_print):
+    for fila in board_to_print:
+        print(fila)
