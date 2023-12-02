@@ -1,37 +1,24 @@
 from dataclasses import dataclass
 
-import numpy as np
-
 from agent.Agent import Agent
-from environment.Environment import Environment, is_valid, print_board
+from environment.Environment import Environment
 
 
 @dataclass
 class AgentState:
     environment: Environment
-    solved: []
+    solved = None
+    is_solved = False
+    agent: Agent
+    time: 0
 
-
-    def state(self, board):
-        if self.solve(board):
+    def solve_sudoku(self):
+        board = self.environment.initial_board
+        if self.agent.find_solution(board):
             print("Solved Sudoku ")
-            print_board(board)
-            return True
+            self.environment.print_board(board)
+            self.is_solved = True
+            self.solved = board
         else:
-            print_board("No solution found")
-            return False
-
-
-    def solve(self, board):
-        for i in range(9):
-            for j in range(9):
-                if board[i][j] == 0:
-                    for num in np.random.permutation(9) + 1:
-                        if is_valid(board, i, j, num):
-                            board[i][j] = num
-                            if self.solve(board):
-                                return True
-                            board[i][j] = 0
-                    return False
-        self.solved = board
-        return True
+            print("No solution found")
+            self.is_solved = False

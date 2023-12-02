@@ -7,6 +7,10 @@ class Environment:
     initial_numbers: 0
     initial_board: []
 
+    def initiate_board(self):
+        self.add_initial_random_numbers()
+        self.print_board(self.initial_board)
+
     def add_initial_random_numbers(self):
         initialized_board = self.initial_board
         for i in range(self.initial_numbers):
@@ -16,6 +20,22 @@ class Environment:
             if is_valid(initialized_board, location_row, location_column, number_to_add):
                 initialized_board[location_row][location_column] = number_to_add
         self.initial_board = initialized_board
+
+    @staticmethod
+    def print_board(board_to_print):
+        board = "------+------+------\n"
+        for index, row in enumerate(board_to_print):
+            for index_row, number in enumerate(row):
+                board += str(number) + " "
+                if index_row != 0 and (index_row + 1) % 3 == 0:
+                    board += "|"
+                if index_row != 0 and (index_row + 1) % 9 == 0:
+                    board += "\n"
+
+            if index != 0 and (index + 1) % 3 == 0:
+                board += "------+------+------\n"
+
+        print(board)
 
 
 def create_sudoku_board():
@@ -46,19 +66,3 @@ def is_valid(board, row, column, number):
             if board[i + start_row][j + start_col] == number:
                 return False
     return True
-
-
-def print_board(board_to_print):
-    board = "------+------+------\n"
-    for index, row in enumerate(board_to_print):
-        for index_row, number in enumerate(row):
-            board += str(number) + " "
-            if index_row != 0 and (index_row+1) % 3 == 0:
-                board += "|"
-            if index_row != 0 and (index_row+1) % 9 == 0:
-                board += "\n"
-
-        if index != 0 and (index+1) % 3 == 0:
-            board += "------+------+------\n"
-
-    print(board)
