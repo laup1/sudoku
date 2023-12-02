@@ -49,5 +49,16 @@ def is_valid(board, row, column, number):
 
 
 def print_board(board_to_print):
-    for fila in board_to_print:
-        print(fila)
+    board = "------+------+------\n"
+    for index, row in enumerate(board_to_print):
+        for index_row, number in enumerate(row):
+            board += str(number) + " "
+            if index_row != 0 and (index_row+1) % 3 == 0:
+                board += "|"
+            if index_row != 0 and (index_row+1) % 9 == 0:
+                board += "\n"
+
+        if index != 0 and (index+1) % 3 == 0:
+            board += "------+------+------\n"
+
+    print(board)
