@@ -4,7 +4,7 @@ import random
 
 @dataclass
 class Environment:
-    initial_numbers: 0
+    initial_numbers: int
     initial_board: []
 
     def initiate_board(self):
@@ -13,12 +13,17 @@ class Environment:
 
     def add_initial_random_numbers(self):
         initialized_board = self.initial_board
-        for i in range(self.initial_numbers):
+        i = 1
+        while i <= self.initial_numbers:
             location_row = random.randint(0, 8)
             location_column = random.randint(0, 8)
             number_to_add = random.randint(1, 9)
-            if is_valid(initialized_board, location_row, location_column, number_to_add):
+            if (initialized_board[location_row][location_column] == 0 and
+                    is_valid(initialized_board, location_row, location_column, number_to_add)):
                 initialized_board[location_row][location_column] = number_to_add
+                print(i)
+                i += 1
+
         self.initial_board = initialized_board
 
     @staticmethod

@@ -7,7 +7,7 @@ from environment.Environment import Environment
 @dataclass
 class AgentState:
     environment: Environment
-    solved = None
+    solved = []
     is_solved = False
     agent: Agent
     time: 0
@@ -22,3 +22,7 @@ class AgentState:
         else:
             print("No solution found")
             self.is_solved = False
+
+    def __str__(self):
+        return f"""AgentState(Environment={self.environment}), (Agent={self.agent}), (solved={self.solved}),
+        (isSolved={self.is_solved}),(Time={self.time})"""

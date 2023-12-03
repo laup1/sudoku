@@ -1,6 +1,9 @@
+from dataclasses import dataclass
+
 from environment.Environment import is_valid
 
 
+@dataclass
 class Agent:
 
     def find_solution(self, board):
@@ -40,19 +43,17 @@ class Agent:
     def possible_numbers(board, row, column):
         nums = set(range(1, 10))
 
-        # Eliminar números de la misma fila y columna
         for i in range(9):
             if board[i][column] in nums:
                 nums.remove(board[i][column])
             if board[row][i] in nums:
                 nums.remove(board[row][i])
 
-        # Eliminar números del mismo cuadrado
-        inicio_fila = row - row % 3
-        inicio_columna = column - column % 3
+        start_row = row - row % 3
+        start_column = column - column % 3
         for i in range(3):
             for j in range(3):
-                if board[i + inicio_fila][j + inicio_columna] in nums:
-                    nums.remove(board[i + inicio_fila][j + inicio_columna])
+                if board[i + start_row][j + start_column] in nums:
+                    nums.remove(board[i + start_row][j + start_column])
 
         return list(nums)
